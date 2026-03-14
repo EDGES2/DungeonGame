@@ -23,7 +23,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 10.0
+"speed": 4.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s78w"]
@@ -37,6 +37,7 @@ script = ExtResource("1_gjb54")
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_63tqj")
 animation = &"idle"
+autoplay = "idle"
 frame_progress = 0.3358494
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1872450968]
