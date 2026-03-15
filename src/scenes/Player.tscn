@@ -2,6 +2,13 @@
 
 [ext_resource type="Script" uid="uid://kd8mrt6o6gdi" path="res://src/scripts/Player.cs" id="1_gjb54"]
 [ext_resource type="Texture2D" uid="uid://7q3wujysqcc" path="res://src/assets/SATYR_sprite_sheet /SPRITE_SHEET.png" id="2_v14g5"]
+[ext_resource type="PackedScene" uid="uid://clp052s7peutb" path="res://src/scenes/HealthComponent.tscn" id="3_qfal1"]
+[ext_resource type="Script" uid="uid://ca22k8kdpojpt" path="res://src/scripts/HitboxComponent.cs" id="4_gjb54"]
+[ext_resource type="PackedScene" uid="uid://cq8j8u6qw1lpb" path="res://src/scenes/Weapon.tscn" id="5_gjb54"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s78w"]
+radius = 4.0
+height = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7x01q"]
 atlas = ExtResource("2_v14g5")
@@ -349,20 +356,42 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s78w"]
-radius = 4.0
-height = 16.0
+[sub_resource type="Animation" id="Animation_v14g5"]
+resource_name = "stop"
 
-[node name="Player" type="CharacterBody2D" unique_id=129841237]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7x01q"]
+_data = {
+&"stop": SubResource("Animation_v14g5")
+}
+
+[node name="Player" type="CharacterBody2D" unique_id=129841237 node_paths=PackedStringArray("EquippedWeapon")]
 script = ExtResource("1_gjb54")
+EquippedWeapon = NodePath("Weapon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2110169164]
+shape = SubResource("CapsuleShape2D_4s78w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=262449154]
 sprite_frames = SubResource("SpriteFrames_63tqj")
-animation = &"idle"
+animation = &"melee_attack"
 autoplay = "idle"
 offset = Vector2(-2, -3)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1872450968]
+[node name="HealthComponent" parent="." unique_id=1420174335 instance=ExtResource("3_qfal1")]
+
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=1423291853 node_paths=PackedStringArray("HealthComponent")]
+position = Vector2(14, 12)
+collision_layer = 2
+script = ExtResource("4_gjb54")
+HealthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1872450968]
+position = Vector2(-14, -12)
 shape = SubResource("CapsuleShape2D_4s78w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=977964057]
+libraries/ = SubResource("AnimationLibrary_7x01q")
+
+[node name="Weapon" parent="." unique_id=436968237 instance=ExtResource("5_gjb54")]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]

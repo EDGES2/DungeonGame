@@ -1,4 +1,5 @@
 using System;
+using Game.Components;
 using Godot;
 
 namespace Game.Player;
@@ -8,6 +9,7 @@ public partial class Player : CharacterBody2D
     [Export] public float speed = 150f;
     [Export] public float friction = 700f;
     [Export] public float attack_slide = 0.5f;
+    [Export] public Weapon EquippedWeapon;
 
     public enum PlayerState
     {
@@ -69,20 +71,32 @@ public partial class Player : CharacterBody2D
         Velocity = Vector2.Zero;
 
         if (Input.IsActionJustPressed("melee_attack"))
+        {
             _currentState = PlayerState.Attacking;
+            EquippedWeapon?.EnableWeapon();
+        }
         else if (direction != Vector2.Zero)
+        {
             _currentState = PlayerState.Running;
+        }
     }
 
     private void HandleRunningState(Vector2 direction)
     {
         _playerSprite2D.Play("run");
-        Velocity = direction * speed;
+        if (direction != Vector2.Zero) // Here was unxpected issue. Player was stopping immediately
+            Velocity = direction * speed;
 
         if (Input.IsActionJustPressed("melee_attack"))
+        {
             _currentState = PlayerState.Attacking;
+            EquippedWeapon?.EnableWeapon();
+        }
         else if (direction == Vector2.Zero)
+        {
             _currentState = PlayerState.Stopping;
+        }
+
     }
 
     private void HandleStoppingState(Vector2 direction, double delta)
@@ -91,9 +105,14 @@ public partial class Player : CharacterBody2D
         Velocity = Velocity.MoveToward(Vector2.Zero, friction * (float)delta);
 
         if (Input.IsActionJustPressed("melee_attack"))
+        {
             _currentState = PlayerState.Attacking;
+            EquippedWeapon?.EnableWeapon();
+        }
         else if (direction != Vector2.Zero)
+        {
             _currentState = PlayerState.Running;
+        }
     }
 
     private void HandleAttackingState(double delta)
@@ -105,9 +124,14 @@ public partial class Player : CharacterBody2D
     private void OnAnimationFinished()
     {
         if (_currentState == PlayerState.Attacking)
+        {
             _currentState = PlayerState.Idle;
+            EquippedWeapon?.DisableWeapon();
+        }
         else if (_currentState == PlayerState.Stopping && _playerSprite2D.Animation == "stop")
+        {
             _currentState = PlayerState.Idle;
+        }
     }
     private void FlipCharacter(bool isFacingLeft)
     {
