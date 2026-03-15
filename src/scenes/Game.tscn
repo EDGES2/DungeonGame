@@ -590,7 +590,7 @@ sources/1 = SubResource("TileSetAtlasSource_5bgfh")
 [node name="Game" type="Node2D" unique_id=962059232]
 script = ExtResource("1_wk23g")
 
-[node name="Muddy" parent="." unique_id=633319438 instance=ExtResource("2_5bgfh")]
+[node name="Muddy" parent="." unique_id=633319438 groups=["Enemy"] instance=ExtResource("2_5bgfh")]
 z_index = 10
 position = Vector2(95, 0)
 

@@ -26,6 +26,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="DungeonGame"
 
+[global_group]
+
+Enemy=""
+
 [input]
 
 up={

@@ -8,145 +8,66 @@ public partial class Player : CharacterBody2D
 {
     [Export] public float speed = 150f;
     [Export] public float friction = 700f;
-    [Export] public float attack_slide = 0.5f;
     [Export] public Weapon EquippedWeapon;
 
-    public enum PlayerState
-    {
-        Idle,
-        Running,
-        Stopping,
-        Attacking
-    }
-
-    private PlayerState _currentState = PlayerState.Idle;
     private AnimatedSprite2D _playerSprite2D;
     private CollisionShape2D _collisionShape;
+    private AnimationNodeStateMachinePlayback _stateMachine;
+
     private float _shapeOffsetX = -2.0f;
-    private float _shapeOffsetY = -3.0f;
 
     public override void _Ready()
     {
         _playerSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        _playerSprite2D.AnimationFinished += OnAnimationFinished;
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+
+        AnimationTree animTree = GetNode<AnimationTree>("AnimationTree");
+        _stateMachine = animTree.Get("parameters/playback").As<AnimationNodeStateMachinePlayback>();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         Vector2 direction = Input.GetVector("left", "right", "up", "down");
+        bool isTurningAround = direction != Vector2.Zero && Velocity.Length() > 10f && Velocity.Dot(direction) < 0;
 
-        if (_currentState != PlayerState.Attacking)
+        if (direction != Vector2.Zero && !isTurningAround)
         {
-            if (direction.X > 0)
-                FlipCharacter(false);
-            else if (direction.X < 0)
-                FlipCharacter(true);
+            Velocity = direction * speed;
+            FlipCharacter(direction.X < 0);
         }
-
-
-        switch (_currentState)
+        else
         {
-            case PlayerState.Idle:
-                HandleIdleState(direction);
-                break;
-            case PlayerState.Running:
-                HandleRunningState(direction);
-                break;
-            case PlayerState.Stopping:
-                HandleStoppingState(direction, delta);
-                break;
-            case PlayerState.Attacking:
-                HandleAttackingState(delta);
-                break;
+            Velocity = Velocity.MoveToward(Vector2.Zero, friction * (float)delta);
         }
 
         MoveAndSlide();
-    }
-
-
-    private void HandleIdleState(Vector2 direction)
-    {
-        _playerSprite2D.Play("idle");
-        Velocity = Vector2.Zero;
 
         if (Input.IsActionJustPressed("melee_attack"))
         {
-            _currentState = PlayerState.Attacking;
-            EquippedWeapon?.EnableWeapon();
+            _stateMachine.Travel("Attack");
         }
-        else if (direction != Vector2.Zero)
+        else if (direction != Vector2.Zero && !isTurningAround)
         {
-            _currentState = PlayerState.Running;
+            _stateMachine.Travel("Run");
+        }
+        else if (_stateMachine.GetCurrentNode() == "Run")
+        {
+            _stateMachine.Travel("Stop");
         }
     }
 
-    private void HandleRunningState(Vector2 direction)
-    {
-        _playerSprite2D.Play("run");
-        if (direction != Vector2.Zero) // Here was unxpected issue. Player was stopping immediately
-            Velocity = direction * speed;
-
-        if (Input.IsActionJustPressed("melee_attack"))
-        {
-            _currentState = PlayerState.Attacking;
-            EquippedWeapon?.EnableWeapon();
-        }
-        else if (direction == Vector2.Zero)
-        {
-            _currentState = PlayerState.Stopping;
-        }
-
-    }
-
-    private void HandleStoppingState(Vector2 direction, double delta)
-    {
-        _playerSprite2D.Play("stop");
-        Velocity = Velocity.MoveToward(Vector2.Zero, friction * (float)delta);
-
-        if (Input.IsActionJustPressed("melee_attack"))
-        {
-            _currentState = PlayerState.Attacking;
-            EquippedWeapon?.EnableWeapon();
-        }
-        else if (direction != Vector2.Zero)
-        {
-            _currentState = PlayerState.Running;
-        }
-    }
-
-    private void HandleAttackingState(double delta)
-    {
-        _playerSprite2D.Play("melee_attack");
-        Velocity = Velocity.MoveToward(Vector2.Zero, attack_slide * friction * (float)delta);
-    }
-
-    private void OnAnimationFinished()
-    {
-        if (_currentState == PlayerState.Attacking)
-        {
-            _currentState = PlayerState.Idle;
-            EquippedWeapon?.DisableWeapon();
-        }
-        else if (_currentState == PlayerState.Stopping && _playerSprite2D.Animation == "stop")
-        {
-            _currentState = PlayerState.Idle;
-        }
-    }
     private void FlipCharacter(bool isFacingLeft)
     {
         _playerSprite2D.FlipH = isFacingLeft;
         Vector2 newPosition = _collisionShape.Position;
 
-        if (isFacingLeft)
-        {
-            newPosition.X = +_shapeOffsetX - 4;
-        }
-        else
-        {
-            newPosition.X = -(_shapeOffsetX);
-        }
+        newPosition.X = isFacingLeft ? +_shapeOffsetX - 4 : -_shapeOffsetX;
 
         _collisionShape.Position = newPosition;
     }
+
+    // public void DisableWeapon()
+    // {
+    //     EquippedWeapon?.DisableWeapon();
+    // }
 }
