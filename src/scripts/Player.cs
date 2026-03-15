@@ -7,71 +7,121 @@ public partial class Player : CharacterBody2D
 {
     [Export] public float speed = 150f;
     [Export] public float friction = 700f;
-    private bool _isStopping = false;
 
+    public enum PlayerState
+    {
+        Idle,
+        Running,
+        Stopping,
+        Attacking
+    }
+
+    private PlayerState _currentState = PlayerState.Idle;
     private AnimatedSprite2D _playerSprite2D;
+    private CollisionShape2D _collisionShape;
+    private float _shapeOffsetX = -2.0f;
+    private float _shapeOffsetY = -3.0f;
 
-    public void GetInput(double delta)
-    {
-
-        Vector2 direction = Input.GetVector("left", "right", "up", "down");
-
-
-        //Movement handling
-        if (direction != Vector2.Zero)
-        {
-            Velocity = direction * speed;
-            _isStopping = false;
-            _playerSprite2D.Play("run");
-        }
-        else
-        {
-            Velocity = Velocity.MoveToward(Vector2.Zero, friction * (float)delta);
-            if (!_isStopping)
-            {
-                if (_playerSprite2D.Animation == "run")
-                {
-                    _isStopping = true;
-                    _playerSprite2D.Play("stop");
-                }
-                else if (_playerSprite2D.Animation != "stop")
-                {
-                    _playerSprite2D.Play("idle");
-                }
-            }
-        }
-
-
-        //Direction change
-        if (direction.X > 0)
-            _playerSprite2D.FlipH = false;
-        else if (direction.X < 0)
-            _playerSprite2D.FlipH = true;
-
-    }
-
-    private void OnAnimationFinished()
-    {
-        if (_playerSprite2D.Animation == "stop")
-        {
-            _isStopping = false;
-            _playerSprite2D.Play("idle");
-        }
-    }
-
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _playerSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _playerSprite2D.AnimationFinished += OnAnimationFinished;
+        _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
     }
+
     public override void _PhysicsProcess(double delta)
     {
-        GetInput(delta);
+        Vector2 direction = Input.GetVector("left", "right", "up", "down");
+
+        if (_currentState != PlayerState.Attacking)
+        {
+            if (direction.X > 0)
+                FlipCharacter(false);
+            else if (direction.X < 0)
+                FlipCharacter(true);
+        }
+
+
+        switch (_currentState)
+        {
+            case PlayerState.Idle:
+                HandleIdleState(direction);
+                break;
+            case PlayerState.Running:
+                HandleRunningState(direction);
+                break;
+            case PlayerState.Stopping:
+                HandleStoppingState(direction, delta);
+                break;
+            case PlayerState.Attacking:
+                HandleAttackingState(delta);
+                break;
+        }
+
         MoveAndSlide();
     }
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+
+
+    private void HandleIdleState(Vector2 direction)
     {
+        _playerSprite2D.Play("idle");
+        Velocity = Vector2.Zero;
+
+        if (Input.IsActionJustPressed("melee_attack"))
+            _currentState = PlayerState.Attacking;
+        else if (direction != Vector2.Zero)
+            _currentState = PlayerState.Running;
+    }
+
+    private void HandleRunningState(Vector2 direction)
+    {
+        _playerSprite2D.Play("run");
+        Velocity = direction * speed;
+
+        if (Input.IsActionJustPressed("melee_attack"))
+            _currentState = PlayerState.Attacking;
+        else if (direction == Vector2.Zero)
+            _currentState = PlayerState.Stopping;
+    }
+
+    private void HandleStoppingState(Vector2 direction, double delta)
+    {
+        _playerSprite2D.Play("stop");
+        Velocity = Velocity.MoveToward(Vector2.Zero, friction * (float)delta);
+
+        if (Input.IsActionJustPressed("melee_attack"))
+            _currentState = PlayerState.Attacking;
+        else if (direction != Vector2.Zero)
+            _currentState = PlayerState.Running;
+    }
+
+    private void HandleAttackingState(double delta)
+    {
+        _playerSprite2D.Play("melee_attack");
+        Velocity = Velocity.MoveToward(Vector2.Zero, 0.5f * friction * (float)delta);
+    }
+
+    private void OnAnimationFinished()
+    {
+        if (_currentState == PlayerState.Attacking)
+            _currentState = PlayerState.Idle;
+        else if (_currentState == PlayerState.Stopping && _playerSprite2D.Animation == "stop")
+            _currentState = PlayerState.Idle;
+    }
+    private void FlipCharacter(bool isFacingLeft)
+    {
+        _playerSprite2D.FlipH = isFacingLeft;
+        Vector2 newPosition = _collisionShape.Position;
+
+        if (isFacingLeft)
+        {
+            newPosition.X = +(_shapeOffsetX * 3);
+        }
+        else
+        {
+            newPosition.X = -(_shapeOffsetX);
+        }
+
+        _collisionShape.Position = newPosition;
     }
 }
