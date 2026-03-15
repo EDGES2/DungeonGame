@@ -7,6 +7,7 @@ public partial class Player : CharacterBody2D
 {
     [Export] public float speed = 150f;
     [Export] public float friction = 700f;
+    [Export] public float attack_slide = 0.5f;
 
     public enum PlayerState
     {
@@ -98,7 +99,7 @@ public partial class Player : CharacterBody2D
     private void HandleAttackingState(double delta)
     {
         _playerSprite2D.Play("melee_attack");
-        Velocity = Velocity.MoveToward(Vector2.Zero, 0.5f * friction * (float)delta);
+        Velocity = Velocity.MoveToward(Vector2.Zero, attack_slide * friction * (float)delta);
     }
 
     private void OnAnimationFinished()
@@ -115,7 +116,7 @@ public partial class Player : CharacterBody2D
 
         if (isFacingLeft)
         {
-            newPosition.X = +(_shapeOffsetX * 3);
+            newPosition.X = +_shapeOffsetX - 4;
         }
         else
         {
