@@ -7,7 +7,8 @@ namespace Game.Player;
 public partial class Player : CharacterBody2D
 {
 	[Export] public float speed = 100f;
-	[Export] public float friction = 700f;
+	[Export] public float friction = 500f;
+
 	[Export] private CollisionShape2D _collisionShape;
 	[Export] private AnimatedSprite2D _playerSprite2D;
 

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://boh8vb0thfp2f"]
 
 [ext_resource type="Texture2D" uid="uid://bt8noqe724ti1" path="res://src/assets/0x72_DungeonTilesetII_v1.7/frames/units/muddy_swampy/muddy_anim_f0.png" id="1_phwpg"]
+[ext_resource type="Script" uid="uid://d1sts12v5mlyb" path="res://src/scripts/Muddy.cs" id="1_yyefs"]
 [ext_resource type="Texture2D" uid="uid://dd2wsmxbtmyj7" path="res://src/assets/0x72_DungeonTilesetII_v1.7/frames/units/muddy_swampy/muddy_anim_f1.png" id="2_by46p"]
 [ext_resource type="Texture2D" uid="uid://dccd0gykpk6de" path="res://src/assets/0x72_DungeonTilesetII_v1.7/frames/units/muddy_swampy/muddy_anim_f2.png" id="3_y7u1k"]
 [ext_resource type="Texture2D" uid="uid://dap0xyj7v4i6" path="res://src/assets/0x72_DungeonTilesetII_v1.7/frames/units/muddy_swampy/muddy_anim_f3.png" id="4_yyefs"]
@@ -52,6 +53,7 @@ _data = {
 }
 
 [node name="Muddy" type="CharacterBody2D" unique_id=633319438]
+script = ExtResource("1_yyefs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2133430648]
 sprite_frames = SubResource("SpriteFrames_uovnf")
@@ -74,9 +76,9 @@ position = Vector2(-2.3841858e-07, 0)
 scale = Vector2(1.97614, 16.442919)
 shape = SubResource("RectangleShape2D_phwpg")
 
-[node name="HealthComponent" parent="." unique_id=1420174335 node_paths=PackedStringArray("anim") instance=ExtResource("6_yyefs")]
-MaxHealth = 40.0
-anim = NodePath("../AnimationPlayer")
+[node name="HealthComponent" parent="." unique_id=1420174335 node_paths=PackedStringArray("_anim", "_characterBody") instance=ExtResource("6_yyefs")]
+_anim = NodePath("../AnimationPlayer")
+_characterBody = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=75844931]
 libraries/ = SubResource("AnimationLibrary_uovnf")
