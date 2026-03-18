@@ -6,8 +6,34 @@
 [ext_resource type="Script" uid="uid://ca22k8kdpojpt" path="res://src/scripts/HitboxComponent.cs" id="4_gjb54"]
 [ext_resource type="PackedScene" uid="uid://cq8j8u6qw1lpb" path="res://src/scenes/Weapon.tscn" id="5_gjb54"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gjb54"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s78w"]
 radius = 4.0
+height = 16.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gjb54"]
+resource_local_to_scene = true
+radius = 5.0
+height = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1g466"]
+radius = 6.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uo3qh"]
+radius = 6.0
+height = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5fxyq"]
+radius = 6.0
+height = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5qe72"]
+radius = 5.0
+height = 26.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qsgd"]
+radius = 4.0
+height = 26.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7x01q"]
 atlas = ExtResource("2_v14g5")
@@ -355,14 +381,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s78w"]
-radius = 4.0
-height = 16.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gjb54"]
-radius = 14.0
-height = 28.0
-
 [sub_resource type="Animation" id="Animation_gjb54"]
 length = 0.001
 tracks/0/type = "value"
@@ -376,6 +394,150 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D:shape")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_gjb54")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D2:shape")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_1g466")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D3:shape")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_uo3qh")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D3:disabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D4:shape")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_5fxyq")]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D4:disabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D5:shape")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_5qe72")]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D5:disabled")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D6:shape")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_8qsgd")]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D6:disabled")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_0k7fb"]
@@ -491,6 +653,150 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D:shape")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_gjb54"), SubResource("CapsuleShape2D_gjb54")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D2:shape")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_1g466"), SubResource("CapsuleShape2D_1g466")]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D2:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D3:shape")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_uo3qh"), SubResource("CapsuleShape2D_uo3qh")]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D3:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D4:shape")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_5fxyq"), SubResource("CapsuleShape2D_5fxyq")]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D4:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D5:shape")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_5qe72"), SubResource("CapsuleShape2D_5qe72")]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D5:disabled")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D6:shape")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0.6, 0.65),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("CapsuleShape2D_8qsgd"), SubResource("CapsuleShape2D_8qsgd")]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("DirectionalPhysics/Weapon/Range/CollisionShape2D6:disabled")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0.6, 0.65),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_5fxyq"]
@@ -628,15 +934,6 @@ nodes/Run/node = SubResource("AnimationNodeAnimation_8qsgd")
 nodes/Run/position = Vector2(86.95652, 147.8261)
 node_connections = [&"output", 0, &"Run"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5fxyq"]
-animation = &"stop"
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5qe72"]
-graph_offset = Vector2(-244.5912, -26.713037)
-nodes/stop/node = SubResource("AnimationNodeAnimation_5fxyq")
-nodes/stop/position = Vector2(8.695652, 156.52174)
-node_connections = [&"output", 0, &"stop"]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7npen"]
 advance_mode = 2
 
@@ -650,18 +947,10 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cbarn"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8qsgd"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0k7fb"]
-switch_mode = 2
-advance_mode = 0
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ccvdx"]
-advance_mode = 0
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gjb54"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1g466"]
 switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_5fxyq"]
 states/Attack/node = SubResource("AnimationNodeBlendTree_1g466")
@@ -674,46 +963,75 @@ states/Idle/position = Vector2(481.39957, 100.51648)
 states/Run/node = SubResource("AnimationNodeBlendTree_0k7fb")
 states/Run/position = Vector2(483.00494, 306.41513)
 states/Start/position = Vector2(257.3913, 99.82906)
-states/Stop/node = SubResource("AnimationNodeBlendTree_5qe72")
-states/Stop/position = Vector2(798.2743, 305.85678)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_7npen"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_awtg0"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_aycp6"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_pi0vf"), "Run", "Attack", SubResource("AnimationNodeStateMachineTransition_cbarn"), "Stop", "Attack", SubResource("AnimationNodeStateMachineTransition_8qsgd"), "Stop", "Run", SubResource("AnimationNodeStateMachineTransition_0k7fb"), "Run", "Stop", SubResource("AnimationNodeStateMachineTransition_ccvdx"), "Stop", "Idle", SubResource("AnimationNodeStateMachineTransition_gjb54")]
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_7npen"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_awtg0"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_aycp6"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_pi0vf"), "Run", "Attack", SubResource("AnimationNodeStateMachineTransition_cbarn"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_gjb54"), "Attack", "Run", SubResource("AnimationNodeStateMachineTransition_1g466")]
 graph_offset = Vector2(177.80017, 25.336138)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gjb54"]
+radius = 4.0
 
 [node name="Player" type="CharacterBody2D" unique_id=129841237 node_paths=PackedStringArray("EquippedWeapon")]
 script = ExtResource("1_gjb54")
-EquippedWeapon = NodePath("Weapon")
+EquippedWeapon = NodePath("DirectionalPhysics/Weapon")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=255910058]
-position = Vector2(0, 4)
-shape = SubResource("CircleShape2D_gjb54")
+[node name="DirectionalPhysics" type="Node2D" parent="." unique_id=306636527]
+position = Vector2(-2, 0)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=262449154]
-sprite_frames = SubResource("SpriteFrames_63tqj")
-animation = &""
-frame = 6
-offset = Vector2(-2, -3)
-
-[node name="HealthComponent" parent="." unique_id=1420174335 instance=ExtResource("3_qfal1")]
-
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=1423291853 node_paths=PackedStringArray("HealthComponent")]
-position = Vector2(14, 12)
+[node name="HitboxComponent" type="Area2D" parent="DirectionalPhysics" unique_id=1423291853 node_paths=PackedStringArray("HealthComponent")]
+position = Vector2(2, 3)
 collision_layer = 2
 script = ExtResource("4_gjb54")
-HealthComponent = NodePath("../HealthComponent")
+HealthComponent = NodePath("../../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1872450968]
-position = Vector2(-14, -12)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DirectionalPhysics/HitboxComponent" unique_id=1872450968]
 shape = SubResource("CapsuleShape2D_4s78w")
 
-[node name="Weapon" parent="." unique_id=436968237 instance=ExtResource("5_gjb54")]
+[node name="Weapon" parent="DirectionalPhysics" unique_id=436968237 instance=ExtResource("5_gjb54")]
+position = Vector2(0, 10)
 
-[node name="Range" type="Area2D" parent="Weapon" unique_id=672958854]
+[node name="Range" type="Area2D" parent="DirectionalPhysics/Weapon" unique_id=672958854]
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/Range" unique_id=948502624]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DirectionalPhysics/Weapon/Range" unique_id=948502624]
+position = Vector2(-2, 0)
 shape = SubResource("CapsuleShape2D_gjb54")
+disabled = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DirectionalPhysics/Weapon/Range" unique_id=1877239669]
+position = Vector2(-4, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_1g466")
+disabled = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="DirectionalPhysics/Weapon/Range" unique_id=1586788709]
+position = Vector2(1, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_uo3qh")
+disabled = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="DirectionalPhysics/Weapon/Range" unique_id=249689145]
+position = Vector2(2, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_5fxyq")
+disabled = true
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="DirectionalPhysics/Weapon/Range" unique_id=975616300]
+position = Vector2(2, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_5qe72")
+disabled = true
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="DirectionalPhysics/Weapon/Range" unique_id=1576699524]
+position = Vector2(2, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_8qsgd")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=262449154]
+sprite_frames = SubResource("SpriteFrames_63tqj")
+animation = &"idle"
+frame = 5
+offset = Vector2(-2, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1840429543]
 libraries/ = SubResource("AnimationLibrary_5qe72")
@@ -723,5 +1041,11 @@ tree_root = SubResource("AnimationNodeStateMachine_5fxyq")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Attack/TimeScale/scale = 2.0
 parameters/Idle/TimeScale/scale = 0.7000000000000028
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=255910058]
+position = Vector2(0, 7)
+shape = SubResource("CircleShape2D_gjb54")
+
+[node name="HealthComponent" parent="." unique_id=1420174335 instance=ExtResource("3_qfal1")]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]

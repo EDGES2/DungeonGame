@@ -8,18 +8,21 @@ public partial class Player : CharacterBody2D
 {
     [Export] public float speed = 150f;
     [Export] public float friction = 700f;
-    [Export] public Weapon EquippedWeapon;
 
     private AnimatedSprite2D _playerSprite2D;
     private CollisionShape2D _collisionShape;
     private AnimationNodeStateMachinePlayback _stateMachine;
+    private Node2D _directionalPhysics;
+    private int _facingDirection = 1;
 
     private float _shapeOffsetX = -2.0f;
+    private float _shapeOffsetXShift = 2.0f;
 
     public override void _Ready()
     {
         _playerSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        _directionalPhysics = GetNode<Node2D>("DirectionalPhysics");
 
         AnimationTree animTree = GetNode<AnimationTree>("AnimationTree");
         _stateMachine = animTree.Get("parameters/playback").As<AnimationNodeStateMachinePlayback>();
@@ -28,9 +31,7 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         Vector2 direction = Input.GetVector("left", "right", "up", "down");
-        bool isTurningAround = direction != Vector2.Zero && Velocity.Length() > 10f && Velocity.Dot(direction) < 0;
-
-        if (direction != Vector2.Zero && !isTurningAround)
+        if (direction != Vector2.Zero)
         {
             Velocity = direction * speed;
             FlipCharacter(direction.X < 0);
@@ -46,28 +47,42 @@ public partial class Player : CharacterBody2D
         {
             _stateMachine.Travel("Attack");
         }
-        else if (direction != Vector2.Zero && !isTurningAround)
+        else if (direction != Vector2.Zero)
         {
             _stateMachine.Travel("Run");
         }
         else if (_stateMachine.GetCurrentNode() == "Run")
         {
-            _stateMachine.Travel("Stop");
+            _stateMachine.Travel("Idle");
         }
     }
 
     private void FlipCharacter(bool isFacingLeft)
     {
+        int newDirection = isFacingLeft ? -1 : 1;
         _playerSprite2D.FlipH = isFacingLeft;
+
         Vector2 newPosition = _collisionShape.Position;
-
-        newPosition.X = isFacingLeft ? +_shapeOffsetX - 4 : -_shapeOffsetX;
-
+        newPosition.X = isFacingLeft ? +_shapeOffsetX - _shapeOffsetXShift : -_shapeOffsetX - _shapeOffsetXShift;
         _collisionShape.Position = newPosition;
+
+        if (_facingDirection != newDirection)
+        {
+            InvertPhysicsNodes(_directionalPhysics);
+            _facingDirection = newDirection;
+        }
     }
 
-    // public void DisableWeapon()
-    // {
-    //     EquippedWeapon?.DisableWeapon();
-    // }
+    private static void InvertPhysicsNodes(Node parentNode)
+    {
+        foreach (Node child in parentNode.GetChildren())
+        {
+            if (child is Node2D node2D)
+            {
+                node2D.Position = new Vector2(-node2D.Position.X, node2D.Position.Y);
+                node2D.Rotation = -node2D.Rotation;
+                InvertPhysicsNodes(node2D);
+            }
+        }
+    }
 }
