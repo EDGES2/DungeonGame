@@ -8,24 +8,25 @@ public partial class Player : CharacterBody2D
 {
 	[Export] public float speed = 150f;
 	[Export] public float friction = 700f;
+	[Export] private CollisionShape2D _collisionShape;
+	[Export] private AnimatedSprite2D _playerSprite2D;
 
-	private AnimatedSprite2D _playerSprite2D;
-	private CollisionShape2D _collisionShape;
+
 	private AnimationNodeStateMachinePlayback _stateMachine;
 	private Node2D _directionalPhysics;
-	private int _facingDirection = 1;
+	private AnimationTree _animTree;
 
+
+	private int _facingDirection = 1;
 	private float _shapeOffsetX = -2.0f;
 	private float _shapeOffsetXShift = 2.0f;
 
 	public override void _Ready()
 	{
-		_playerSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		_directionalPhysics = GetNode<Node2D>("DirectionalPhysics");
 
-		AnimationTree animTree = GetNode<AnimationTree>("AnimationTree");
-		_stateMachine = animTree.Get("parameters/playback").As<AnimationNodeStateMachinePlayback>();
+		_animTree = GetNode<AnimationTree>("AnimationTree");
+		_stateMachine = _animTree.Get("parameters/playback").As<AnimationNodeStateMachinePlayback>();
 	}
 
 	public override void _PhysicsProcess(double delta)

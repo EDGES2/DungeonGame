@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace Game.Components;
@@ -7,13 +8,18 @@ namespace Game.Components;
 public partial class Weapon : Node2D
 {
 	private Area2D _area;
-	private CollisionShape2D _hitboxShape;
+	private readonly List<CollisionShape2D> _hitboxFrames = [];
 	public override void _Ready()
 	{
 		_area = GetNode<Area2D>("Range");
-		_hitboxShape = _area.GetNode<CollisionShape2D>("CollisionShape2D");
-		DisableWeapon();
 		_area.AreaEntered += OnAreaEntered;
+		foreach (Node child in _area.GetChildren())
+		{
+			if (child is CollisionShape2D shape)
+			{
+				_hitboxFrames.Add(shape);
+			}
+		}
 
 	}
 	public void OnAreaEntered(Area2D area)
@@ -29,14 +35,5 @@ public partial class Weapon : Node2D
 
 			hitbox.Damage(attack);
 		}
-	}
-	public void EnableWeapon()
-	{
-		_hitboxShape.SetDeferred(CollisionShape2D.PropertyName.Disabled, false);
-	}
-
-	public void DisableWeapon()
-	{
-		_hitboxShape.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 	}
 }
